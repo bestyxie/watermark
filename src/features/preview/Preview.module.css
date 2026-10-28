@@ -1,0 +1,162 @@
+.preview {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  background: #ffffff;
+}
+
+.toolbar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.info {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+}
+
+.name {
+  overflow: hidden;
+  color: #0f172a;
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dimensions {
+  color: #94a3b8;
+  font-size: 11px;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+}
+
+.zoom {
+  color: #64748b;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.toolButton {
+  padding: 5px 9px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #334155;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.toolButton:hover {
+  background: #f8fafc;
+}
+
+.stage {
+  position: relative;
+  display: grid;
+  flex: 1;
+  place-items: center;
+  min-height: 0;
+  overflow: hidden;
+  background: repeating-conic-gradient(#f8fafc 0 25%, #eef2f7 0 50%) 50% / 20px 20px;
+}
+
+.canvas {
+  display: block;
+  max-width: none;
+  border-radius: 2px;
+  box-shadow: 0 24px 60px -36px rgb(15 23 42 / 55%);
+  transform-origin: center;
+  will-change: transform;
+}
+
+.zoomed {
+  cursor: grab;
+  touch-action: none;
+}
+
+.zoomed:active {
+  cursor: grabbing;
+}
+
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 24px;
+  text-align: center;
+}
+
+.placeholderTitle {
+  margin: 0;
+  color: #334155;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.placeholderHint {
+  margin: 0;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.primary {
+  margin-top: 4px;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 10px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.primary:hover {
+  background: #1d4ed8;
+}
+
+.state {
+  margin: 0;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.error {
+  margin: 0;
+  max-width: 40ch;
+  color: #dc2626;
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+@media (max-width: 639px) {
+  .toolButton {
+    min-height: 44px;
+    padding: 0 12px;
+  }
+
+  .name {
+    max-width: 38vw;
+  }
+}

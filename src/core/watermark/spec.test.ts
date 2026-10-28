@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { DEFAULT_SPEC, MAX_TEXT_LENGTH } from './constants';
-import { clampSpec, deserializeSpec, isBlankText, serializeSpec } from './spec';
+import { clampSpec, deserializeSpec, isBlankText, parseColor, serializeSpec } from './spec';
 
 describe('clampSpec', () => {
   it('falls back to defaults for missing or invalid input', () => {
@@ -58,6 +58,19 @@ describe('persistence', () => {
   it('returns defaults for corrupt payloads', () => {
     expect(deserializeSpec('{')).toEqual(DEFAULT_SPEC);
     expect(deserializeSpec(null)).toEqual(DEFAULT_SPEC);
+  });
+});
+
+describe('parseColor', () => {
+  it('accepts long and short hex values', () => {
+    expect(parseColor('#FF0000')).toBe('#ff0000');
+    expect(parseColor(' #abc ')).toBe('#aabbcc');
+  });
+
+  it('rejects anything else', () => {
+    expect(parseColor('red')).toBeNull();
+    expect(parseColor('#12')).toBeNull();
+    expect(parseColor('rgb(0, 0, 0)')).toBeNull();
   });
 });
 

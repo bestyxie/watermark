@@ -1,52 +1,152 @@
-import { useEffect, useRef } from 'react';
-import { DEFAULT_SPEC, renderWatermark } from '../core/watermark';
+import { useEffect, useRef, useState } from 'react';
+import type { ChangeEvent, DragEvent as ReactDragEvent } from 'react';
+import { BatchPane } from '../features/batch/BatchPane';
+import { useBatchStore } from '../features/batch/store';
+import { NoticeStack } from '../features/notices/NoticeStack';
+import { Preview } from '../features/preview/Preview';
+import { SpecPanel } from '../features/spec/SpecPanel';
+import { useMediaQuery } from '../shared/useMediaQuery';
 import styles from './App.module.css';
 
-const DEMO_WIDTH = 960;
-const DEMO_HEIGHT = 600;
-
 export function App() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const addFiles = useBatchStore((state) => state.addFiles);
+  const isCompact = useMediaQuery('(max-width: 1023px)');
+  const [paramsOpen, setParamsOpen] = useState(false);
+  const [dragging, setDragging] = useState(false);
+  const dragDepth = useRef(0);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    const context = canvas?.getContext('2d');
-    if (!canvas || !context) {
+    const onPaste = (event: ClipboardEvent) => {
+      const files = Array.from(event.clipboardData?.files ?? []);
+
+      if (files.length === 0) {
+        return;
+      }
+
+      event.preventDefault();
+      void addFiles(files);
+    };
+
+    window.addEventListener('paste', onPaste);
+
+    return () => {
+      window.removeEventListener('paste', onPaste);
+    };
+  }, [addFiles]);
+
+  const openPicker = () => {
+    fileInputRef.current?.click();
+  };
+
+  const onFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(event.target.files ?? []);
+    event.target.value = '';
+
+    if (files.length > 0) {
+      void addFiles(files);
+    }
+  };
+
+  const onDragEnter = (event: ReactDragEvent<HTMLDivElement>) => {
+    if (!event.dataTransfer.types.includes('Files')) {
       return;
     }
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width = DEMO_WIDTH * dpr;
-    canvas.height = DEMO_HEIGHT * dpr;
+    event.preventDefault();
+    dragDepth.current += 1;
+    setDragging(true);
+  };
 
-    const gradient = context.createLinearGradient(0, 0, canvas.width, canvas.height);
-    gradient.addColorStop(0, '#dbeafe');
-    gradient.addColorStop(0.5, '#f8fafc');
-    gradient.addColorStop(1, '#fde68a');
-    context.fillStyle = gradient;
-    context.fillRect(0, 0, canvas.width, canvas.height);
+  const onDragOver = (event: ReactDragEvent<HTMLDivElement>) => {
+    if (!event.dataTransfer.types.includes('Files')) {
+      return;
+    }
 
-    renderWatermark(context, DEFAULT_SPEC, canvas.width, canvas.height);
-  }, []);
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'copy';
+  };
+
+  const onDragLeave = (event: ReactDragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    dragDepth.current = Math.max(0, dragDepth.current - 1);
+
+    if (dragDepth.current === 0) {
+      setDragging(false);
+    }
+  };
+
+  const onDrop = (event: ReactDragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    dragDepth.current = 0;
+    setDragging(false);
+
+    const files = Array.from(event.dataTransfer.files);
+
+    if (files.length > 0) {
+      void addFiles(files);
+    }
+  };
 
   return (
-    <main className={styles.page}>
+    <div
+      className={styles.app}
+      onDragEnter={onDragEnter}
+      onDragOver={onDragOver}
+      onDragLeave={onDragLeave}
+      onDrop={onDrop}
+    >
       <header className={styles.header}>
-        <p className={styles.eyebrow}>watermark</p>
-        <h1 className={styles.title}>图片水印工具</h1>
-        <p className={styles.lede}>
-          骨架已就绪：渲染核心、参数规格与领域文档已落地。下一步接入导入与参数面板。
-        </p>
+        <div className={styles.brand}>
+          <p className={styles.eyebrow}>watermark</p>
+          <h1 className={styles.title}>图片水印工具</h1>
+        </div>
+        <p className={styles.privacy}>图片不会上传，全部在本机处理</p>
       </header>
 
-      <section className={styles.preview} aria-label="水印渲染演示">
-        <canvas ref={canvasRef} className={styles.canvas} />
-      </section>
+      <div className={styles.workspace}>
+        <div className={styles.batchArea}>
+          <BatchPane onPick={openPicker} />
+        </div>
 
-      <footer className={styles.footer}>
-        <span>默认参数渲染演示</span>
-        <span>图片不会上传，全部在本机处理</span>
-      </footer>
-    </main>
+        <div className={styles.previewArea}>
+          <Preview
+            onPick={openPicker}
+            onOpenParams={() => setParamsOpen(true)}
+            showParamsButton={isCompact}
+          />
+        </div>
+
+        <div className={`${styles.specHost} ${paramsOpen ? styles.specOpen : ''}`}>
+          <SpecPanel onClose={isCompact ? () => setParamsOpen(false) : undefined} />
+        </div>
+      </div>
+
+      {isCompact && paramsOpen && (
+        <button
+          type="button"
+          className={styles.backdrop}
+          onClick={() => setParamsOpen(false)}
+          aria-label="关闭参数面板"
+        />
+      )}
+
+      <input
+        ref={fileInputRef}
+        className={styles.fileInput}
+        type="file"
+        accept="image/jpeg,image/png,image/webp"
+        multiple
+        onChange={onFileChange}
+      />
+
+      <NoticeStack />
+
+      {dragging && (
+        <div className={styles.dropOverlay}>
+          <span>松开以导入图片</span>
+        </div>
+      )}
+    </div>
   );
 }

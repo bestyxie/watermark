@@ -22,7 +22,7 @@
 - 导入时只解码缩略图，不保留全分辨率位图。
 - 选中某张图时才解码其预览图；切换图片时释放上一张。
 - 导出时按并发上限临时解码原图，编码后 `close()`。
-- 使用 `createImageBitmap`，并处理 EXIF 方向；不可用时回退 `<img>` + canvas。
+- 使用 `<img>` + `decode()` + `drawImage` 解码：方向由浏览器的 `image-orientation` 规则处理，缩略图、预览与导出复用同一条路径，避免 `createImageBitmap` 的方向差异分支。
 
 ### 渲染调度
 

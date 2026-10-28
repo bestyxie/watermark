@@ -37,11 +37,7 @@ function normalizeText(value: unknown): string {
   return value.slice(0, MAX_TEXT_LENGTH);
 }
 
-function normalizeColor(value: unknown): string {
-  if (typeof value !== 'string') {
-    return DEFAULT_SPEC.color;
-  }
-
+export function parseColor(value: string): string | null {
   const color = value.trim().toLowerCase();
 
   if (/^#[0-9a-f]{6}$/.test(color)) {
@@ -53,7 +49,15 @@ function normalizeColor(value: unknown): string {
     return `#${short[1]}${short[1]}${short[2]}${short[2]}${short[3]}${short[3]}`;
   }
 
-  return DEFAULT_SPEC.color;
+  return null;
+}
+
+function normalizeColor(value: unknown): string {
+  if (typeof value !== 'string') {
+    return DEFAULT_SPEC.color;
+  }
+
+  return parseColor(value) ?? DEFAULT_SPEC.color;
 }
 
 export function clampSpec(input: unknown): WatermarkSpec {
