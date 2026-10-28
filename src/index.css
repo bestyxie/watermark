@@ -1,0 +1,39 @@
+:root {
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    'PingFang SC',
+    'Microsoft YaHei',
+    sans-serif;
+  color: #0f172a;
+  background: #f1f5f9;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at 15% 0%, rgb(219 234 254 / 80%), transparent 45%),
+    radial-gradient(circle at 85% 15%, rgb(254 243 199 / 70%), transparent 40%), #f1f5f9;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
