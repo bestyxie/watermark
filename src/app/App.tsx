@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { ChangeEvent, DragEvent as ReactDragEvent } from 'react';
 import { BatchPane } from '../features/batch/BatchPane';
 import { useBatchStore } from '../features/batch/store';
+import { ExportBar } from '../features/export/ExportBar';
 import { NoticeStack } from '../features/notices/NoticeStack';
 import { Preview } from '../features/preview/Preview';
 import { SpecPanel } from '../features/spec/SpecPanel';
@@ -121,6 +122,8 @@ export function App() {
           <SpecPanel onClose={isCompact ? () => setParamsOpen(false) : undefined} />
         </div>
       </div>
+
+      <ExportBar />
 
       {isCompact && paramsOpen && (
         <button

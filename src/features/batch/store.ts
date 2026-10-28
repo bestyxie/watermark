@@ -33,6 +33,7 @@ interface BatchState {
   selectImage: (id: string) => void;
   removeImage: (id: string) => void;
   clearImages: () => void;
+  notify: (message: string, tone?: Notice['tone']) => void;
   dismissNotice: (id: string) => void;
 }
 
@@ -187,6 +188,9 @@ export const useBatchStore = create<BatchState>((set, get) => ({
     batchGeneration += 1;
     set({ images: [], currentId: null, importing: false });
   },
+
+  notify: (message, tone = 'info') =>
+    set((state) => ({ notices: [...state.notices, createNotice(message, tone)] })),
 
   dismissNotice: (id) =>
     set((state) => ({ notices: state.notices.filter((notice) => notice.id !== id) })),

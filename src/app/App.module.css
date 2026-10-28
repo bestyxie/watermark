@@ -124,9 +124,9 @@
 
 @media (max-width: 639px) {
   .app {
-    height: auto;
-    min-height: 100dvh;
-    overflow: visible;
+    height: 100dvh;
+    min-height: 0;
+    overflow: hidden;
   }
 
   .header {
@@ -141,9 +141,9 @@
       'preview'
       'batch';
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: 58dvh auto;
+    grid-template-rows: minmax(0, 1fr) auto;
     gap: 12px;
-    padding: 0 16px 16px;
+    padding: 0 16px 12px;
   }
 
   .specHost {

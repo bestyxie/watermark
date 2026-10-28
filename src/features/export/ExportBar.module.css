@@ -1,0 +1,268 @@
+.bar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 clamp(12px, 3vw, 32px) 20px;
+  padding: 10px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 18px 40px -32px rgb(15 23 42 / 40%);
+}
+
+.info {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.status {
+  color: #475569;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.warning {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #fffbeb;
+  color: #b45309;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.quality {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qualityLabel {
+  color: #64748b;
+  font-size: 11px;
+}
+
+.qualityRange {
+  width: 120px;
+  accent-color: #2563eb;
+}
+
+.qualityValue {
+  min-width: 34px;
+  color: #64748b;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+}
+
+.button {
+  padding: 9px 14px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.primary {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.primary:hover {
+  background: #1d4ed8;
+}
+
+.secondary {
+  border-color: #e2e8f0;
+  background: #ffffff;
+  color: #334155;
+}
+
+.secondary:hover {
+  background: #f8fafc;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.progress {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  min-width: 0;
+}
+
+.progress > span:first-child {
+  color: #475569;
+  font-size: 11px;
+}
+
+.current {
+  max-width: 220px;
+  overflow: hidden;
+  color: #94a3b8;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.progressTrack {
+  display: block;
+  width: 180px;
+  height: 4px;
+  margin-top: 2px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e2e8f0;
+}
+
+.progressFill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: #2563eb;
+  transition: width 120ms linear;
+}
+
+.dialogBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgb(15 23 42 / 40%);
+  backdrop-filter: blur(2px);
+}
+
+.dialog {
+  width: min(480px, 100%);
+  max-height: 80dvh;
+  padding: 20px;
+  overflow: auto;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 30px 80px -30px rgb(15 23 42 / 55%);
+}
+
+.dialogTitle {
+  margin: 0 0 6px;
+  color: #0f172a;
+  font-size: 17px;
+}
+
+.dialogSummary {
+  margin: 0 0 14px;
+  color: #475569;
+  font-size: 13px;
+}
+
+.failureList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 40dvh;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  list-style: none;
+}
+
+.failure {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 10px 12px;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  background: #fef2f2;
+}
+
+.failureName {
+  overflow-wrap: anywhere;
+  color: #b91c1c;
+  font-size: 12px;
+}
+
+.failureReason {
+  overflow-wrap: anywhere;
+  color: #7f1d1d;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.dialogActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+@media (max-width: 639px) {
+  .bar {
+    z-index: 20;
+    flex-wrap: wrap;
+    margin: 0 12px calc(12px + env(safe-area-inset-bottom));
+    padding: 10px 12px;
+  }
+
+  .info {
+    width: 100%;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .qualityRange {
+    width: 100px;
+    min-height: 44px;
+  }
+
+  .actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .button {
+    min-height: 44px;
+    padding: 0 14px;
+  }
+
+  .progress {
+    flex: 1;
+    align-items: flex-start;
+  }
+
+  .progressTrack {
+    width: 100%;
+  }
+
+  .current {
+    max-width: 50vw;
+  }
+
+  .dialog {
+    width: 100%;
+    max-height: 85dvh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progressFill {
+    transition: none;
+  }
+}

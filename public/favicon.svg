@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Watermark">
+  <rect width="32" height="32" rx="8" fill="#2563eb" />
+  <text
+    x="16"
+    y="22"
+    font-family="system-ui, -apple-system, 'Segoe UI', sans-serif"
+    font-size="15"
+    font-weight="700"
+    text-anchor="middle"
+    fill="#ffffff"
+  >
+    W
+  </text>
+</svg>
