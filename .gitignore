@@ -4,3 +4,6 @@ dist-ssr
 *.local
 .DS_Store
 coverage
+test-results
+playwright-report
+blob-report

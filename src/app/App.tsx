@@ -118,7 +118,11 @@ export function App() {
           />
         </div>
 
-        <div className={`${styles.specHost} ${paramsOpen ? styles.specOpen : ''}`}>
+        <div
+          className={`${styles.specHost} ${paramsOpen ? styles.specOpen : ''}`}
+          inert={isCompact && !paramsOpen ? true : undefined}
+          aria-hidden={isCompact && !paramsOpen ? true : undefined}
+        >
           <SpecPanel onClose={isCompact ? () => setParamsOpen(false) : undefined} />
         </div>
       </div>
