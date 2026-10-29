@@ -217,6 +217,7 @@ Then 水印数量、位置比例、角度一致；字号与间隔按短边等比
 | FR-5 导出 | 已完成 | 原格式、质量、ZIP / 逐张、进度与取消、失败重试、Worker + 主线程降级 |
 | FR-6 持久化 | 已完成 | `watermark:spec:v1`，写入防抖 300ms |
 | FR-7 隐私 | 已完成 | 无网络上传，无埋点 |
+| 部署 | 已完成 | GitHub Pages（Actions），`base = /watermark/`，见 ADR-0010 |
 
 
 ## 10. 测试
